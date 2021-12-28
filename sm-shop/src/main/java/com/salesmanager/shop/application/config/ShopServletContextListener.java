@@ -11,21 +11,22 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class ShopServletContextListener implements ServletContextListener {
 	private static final Logger logger = LoggerFactory.getLogger(ShopServletContextListener.class);
+
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
-		logger.info("===context init===");
+		logger.info("===context initilized===");
 		System.getenv().forEach((k, v) -> {
-		  logger.debug(k + ":" + v);
+			logger.debug(k + ":" + v);
 		});
 		Properties props = System.getProperties();
 		props.forEach((k, v) -> {
-		  logger.debug(k + ":" + v);
+			logger.debug(k + ":" + v);
 		});
 	}
 
 	@Override
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-		logger.info("===context destroy===");
+		logger.info("===context destroyed===");
 		VendorCacheManager cacheManager = VendorCacheManager.getInstance();
 		cacheManager.getManager().stop();
 	}

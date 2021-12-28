@@ -15,35 +15,33 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-
 @Component
 @Order(0)
 public class XssFilter implements Filter {
 
-	 /**
-	  * Description: Log
-	  */
-	 private static final Logger LOGGER = LoggerFactory.getLogger(XssFilter.class);
+	/**
+	 * Description: Log
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(XssFilter.class);
 
-	 @Override
-	 public void init(FilterConfig filterConfig) throws ServletException {
-	  LOGGER.debug("(XssFilter) initialize");
-	 }
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		LOGGER.debug("(XssFilter) initialize");
+	}
 
-	 
-	 @Override
-	 public void doFilter(ServletRequest srequest, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+	@Override
+	public void doFilter(ServletRequest srequest, ServletResponse response, FilterChain filterChain)
+			throws IOException, ServletException {
 
-	 		HttpServletRequest request = (HttpServletRequest) srequest;
-	 		filterChain.doFilter(new XssHttpServletRequestWrapper(request) {}, response);
+		HttpServletRequest request = (HttpServletRequest) srequest;
+		filterChain.doFilter(new XssHttpServletRequestWrapper(request) {
+		}, response);
 
-	 }
+	}
 
-
-
-	 @Override
-	 public void destroy() {
-	  LOGGER.debug("(XssFilter) destroy");
-	 }
+	@Override
+	public void destroy() {
+		LOGGER.debug("(XssFilter) destroy");
+	}
 
 }

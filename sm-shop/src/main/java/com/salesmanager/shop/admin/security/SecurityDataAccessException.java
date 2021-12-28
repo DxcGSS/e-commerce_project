@@ -3,7 +3,6 @@ package com.salesmanager.shop.admin.security;
 import org.springframework.dao.DataAccessException;
 
 public class SecurityDataAccessException extends DataAccessException {
-
 	/**
 	 * 
 	 */

@@ -38,114 +38,106 @@ import com.salesmanager.shop.filter.XssFilter;
 import com.salesmanager.shop.utils.LabelUtils;
 
 @Configuration
-@ComponentScan({"com.salesmanager.shop"})
+@ComponentScan({ "com.salesmanager.shop" })
 @ServletComponentScan
-@Import({CoreApplicationConfiguration.class}) // import sm-core configurations
+@Import({ CoreApplicationConfiguration.class }) // import sm-core configurations
 @EnableWebSecurity
 public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
-  protected final Log logger = LogFactory.getLog(getClass());
+	protected final Log logger = LogFactory.getLog(getClass());
 
-  @EventListener(ApplicationReadyEvent.class)
-  public void applicationReadyCode() {
-    String workingDir = System.getProperty("user.dir");
-    logger.info("Current working directory : " + workingDir);
-  }
+	@EventListener(ApplicationReadyEvent.class)
+	public void applicationReadyCode() {
+		String workingDir = System.getProperty("user.dir");
+		logger.info("Current working directory : " + workingDir);
+	}
 
-  @Bean
-  public FilterRegistrationBean<XssFilter> croseSiteFilter(){
-      FilterRegistrationBean<XssFilter> registrationBean 
-        = new FilterRegistrationBean<>();
-          
-      registrationBean.setFilter(new XssFilter());
-      registrationBean.addUrlPatterns("/shop/**");
-      registrationBean.addUrlPatterns("/api/**");
-      registrationBean.addUrlPatterns("/customer/**");
-          
-      return registrationBean;    
-  }
+	@Bean
+	public FilterRegistrationBean<XssFilter> croseSiteFilter() {
+		FilterRegistrationBean<XssFilter> registrationBean = new FilterRegistrationBean<>();
 
-  @Override
-  public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-    converters.add(new MappingJackson2HttpMessageConverter());
-  }
+		registrationBean.setFilter(new XssFilter());
+		registrationBean.addUrlPatterns("/shop/**");
+		registrationBean.addUrlPatterns("/api/**");
+		registrationBean.addUrlPatterns("/customer/**");
 
-  @Override
-  public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/").setViewName("shop");
-  }
+		return registrationBean;
+	}
 
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    // Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de
-    registry.addInterceptor(localeChangeInterceptor());
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		converters.add(new MappingJackson2HttpMessageConverter());
+	}
 
-    registry
-        .addInterceptor(storeFilter())
-        // store web front filter
-        .addPathPatterns("/shop/**")
-        // customer section filter
-        .addPathPatterns("/customer/**");
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("shop");
+	}
 
-    registry
-        .addInterceptor(corsFilter())
-        // public services cors filter
-        .addPathPatterns("/services/**")
-        // REST api
-        .addPathPatterns("/api/**");
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		// Changes the locale when a 'locale' request parameter is sent; e.g.
+		// /?locale=de
+		registry.addInterceptor(localeChangeInterceptor());
 
-  }
+		registry.addInterceptor(storeFilter())
+				// store web front filter
+				.addPathPatterns("/shop/**")
+				// customer section filter
+				.addPathPatterns("/customer/**");
 
-  @Bean
-  public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
-    List<MediaType> supportedMediaTypes = Arrays.asList(IMAGE_JPEG, IMAGE_GIF, IMAGE_PNG, APPLICATION_OCTET_STREAM);
+		registry.addInterceptor(corsFilter())
+				// public services cors filter
+				.addPathPatterns("/services/**")
+				// REST api
+				.addPathPatterns("/api/**");
 
-    ByteArrayHttpMessageConverter byteArrayHttpMessageConverter =
-        new ByteArrayHttpMessageConverter();
-    byteArrayHttpMessageConverter.setSupportedMediaTypes(supportedMediaTypes);
-    return byteArrayHttpMessageConverter;
-  }
+	}
 
-  @Bean
-  public LocaleChangeInterceptor localeChangeInterceptor() {
-    return new LocaleChangeInterceptor();
-  }
+	@Bean
+	public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
+		List<MediaType> supportedMediaTypes = Arrays.asList(IMAGE_JPEG, IMAGE_GIF, IMAGE_PNG, APPLICATION_OCTET_STREAM);
 
-  @Bean
-  public StoreFilter storeFilter() {
-    return new StoreFilter();
-  }
+		ByteArrayHttpMessageConverter byteArrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
+		byteArrayHttpMessageConverter.setSupportedMediaTypes(supportedMediaTypes);
+		return byteArrayHttpMessageConverter;
+	}
 
-  @Bean
-  public CorsFilter corsFilter() {
-    return new CorsFilter();
-  }
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		return new LocaleChangeInterceptor();
+	}
 
+	@Bean
+	public StoreFilter storeFilter() {
+		return new StoreFilter();
+	}
 
-  @Bean
-  public SessionLocaleResolver localeResolver() {
-    SessionLocaleResolver slr = new SessionLocaleResolver();
-    slr.setDefaultLocale(Locale.getDefault());
-    return slr;
-  }
+	@Bean
+	public CorsFilter corsFilter() {
+		return new CorsFilter();
+	}
 
-  @Bean
-  public ReloadableResourceBundleMessageSource messageSource() {
-    ReloadableResourceBundleMessageSource messageSource =
-        new ReloadableResourceBundleMessageSource();
-    messageSource.setBasenames(
-        "classpath:bundles/shopizer",
-        "classpath:bundles/messages",
-        "classpath:bundles/shipping",
-        "classpath:bundles/payment");
+	@Bean
+	public SessionLocaleResolver localeResolver() {
+		SessionLocaleResolver slr = new SessionLocaleResolver();
+		slr.setDefaultLocale(Locale.getDefault());
+		return slr;
+	}
 
-    messageSource.setDefaultEncoding("UTF-8");
-    return messageSource;
-  }
+	@Bean
+	public ReloadableResourceBundleMessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasenames("classpath:bundles/shopizer", "classpath:bundles/messages",
+				"classpath:bundles/shipping", "classpath:bundles/payment");
 
-  @Bean
-  public LabelUtils messages() {
-    return new LabelUtils();
-  }
+		messageSource.setDefaultEncoding("UTF-8");
+		return messageSource;
+	}
+
+	@Bean
+	public LabelUtils messages() {
+		return new LabelUtils();
+	}
 
 }

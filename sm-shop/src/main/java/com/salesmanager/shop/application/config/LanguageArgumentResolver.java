@@ -16,21 +16,21 @@ import com.salesmanager.shop.utils.LanguageUtils;
 @Component
 public class LanguageArgumentResolver implements HandlerMethodArgumentResolver {
 
-  @Autowired
-  private LanguageUtils languageUtils;
+	@Autowired
+	private LanguageUtils languageUtils;
 
-  @Override
-  public boolean supportsParameter(MethodParameter parameter) {
-    return parameter.getParameterType().equals(Language.class);
-  }
+	@Override
+	public boolean supportsParameter(MethodParameter parameter) {
+		return parameter.getParameterType().equals(Language.class);
+	}
 
-  @Override
-  public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-      NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+	@Override
+	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-    HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
-    return languageUtils.getRESTLanguage(request);
-  }
+		return languageUtils.getRESTLanguage(request);
+	}
 
 }
