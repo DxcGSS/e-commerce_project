@@ -72,10 +72,6 @@ Get the source code:
 Clone the repository:
      
 	 $ git clone git://github.com/shopizer-ecommerce/shopizer.git
-	 
-	 $ git clone git://github.com/shopizer-ecommerce/shopizer-admin.git
-	 
-	 $ git clone git://github.com/shopizer-ecommerce/shopizer-shop-reactjs.git
 
 If this is your first time using Github, review http://help.github.com to learn the basics.
 
@@ -94,14 +90,6 @@ From the command line:
 	$ cd sm-shop
 	$ mvnw spring-boot:run
 
-2. Shopizer admin
-
-Form compiling and running Shopizer admin consult the repo README file
-
-3. Shop sample site
-
-Form compiling and running Shopizer admin consult the repo README file
-
 
 ### Access the application:
 -------------------
@@ -117,10 +105,6 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 -------------------
 
 Documentation available <http://documentation.shopizer.com>
-
-ChatOps <https://shopizer.slack.com>  - Join our Slack channel https://shopizer-slackin.herokuapp.com/
-
-More information is available on shopizer web site here <http://www.shopizer.com>
 
 ### Participation:
 -------------------
