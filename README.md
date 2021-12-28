@@ -71,7 +71,7 @@ Get the source code:
 -------------------
 Clone the repository:
      
-	 $ git clone git://github.com/shopizer-ecommerce/shopizer.git
+	 $ git clone https://github.com/DxcGSS/e-commerce_project.git
 
 If this is your first time using Github, review http://help.github.com to learn the basics.
 
